@@ -57,7 +57,7 @@ class VariantConfig(BaseModel):
 
 
 class StemmaConfig(BaseModel):
-    """Model describing the configuration of the different
+    """Model describing the configuration of the different stemmas.
     """
     depth: int
     width: ProbabilisticConfig

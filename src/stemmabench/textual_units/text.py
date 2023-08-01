@@ -30,7 +30,7 @@ class Text:
 
     @staticmethod
     def draw_boolean(rate: float) -> bool:
-        """Simulate a bernouilli law and returns True
+        """Simulate a Bernouilli law and returns True
         if the drawn value is < the rate.
 
         Args:
