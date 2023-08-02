@@ -55,3 +55,11 @@ class Sentence:
             return f"{generated_sentence.strip().capitalize()}."
         else:
             return self.sentence
+
+    def delete(self) -> str:
+        """Delete a sentence.
+
+        Returns:
+            str: An empty string.
+        """
+        return ""
