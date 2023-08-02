@@ -129,14 +129,23 @@ class Text:
         return " ".join(edited_sentences)
 
     def transform(self,
-                  variant_config: VariantConfig):
+                  variant_config: VariantConfig) -> str:
         """Transforms the test using the configuration specified in the
         configuration variant_config. Operates first at the sentence level,
         and then moves on to the word level.
+
+        Args:
+            variant_config (Dict[Dict[str, ProbabilisticConfig]]): The
+                configuration of the variants transformers for sentences and 
+                words.
+        
+        Return:
+            str: the text transformed at both the sentence and word level.
         """
         # Transform at sentence level
         text_edited_sentences = self.transform_sentences(
             sentence_config=variant_config.sentences)
+          
         # Transform at word level
         sentence_edited_words = " "
         for sentence in text_edited_sentences.split(self.punc):
