@@ -30,8 +30,9 @@ class Text:
 
     @staticmethod
     def draw_boolean(rate: float) -> bool:
-        """Simulate a Bernouilli law and returns True
-        if the drawn value is < the rate.
+        """Simulate a Bernouilli law.
+        Draw a number from an uniform distribution and returns True if the
+        drawn value is below the rate.
 
         Args:
             rate (float): The rate of the Bernouilli law.
@@ -155,3 +156,33 @@ class Text:
             if new_sentence:
                 sentence_edited_words += new_sentence + self.punc + " "
         return sentence_edited_words.strip()
+
+
+    def fragment(self, frag_rate: float) -> str:
+        """
+        Fragment a text by randomly removing ONE sequence of sentences whose
+        length is expressed as a percentage of the text length.
+
+        Args:
+            text (str): The input text to be fragmented.
+            frag_rate (float): The rate of sentence deletion (0 <= frag_rate <= 1).
+                Represents the percentage of sentences to be deleted.
+            punc (str, optional): The punctuation used to split the text into sentences.
+                Default is period/full stop (".").
+        
+        Returns:
+            str: The fragmented text with sentences deleted.
+        """
+        if not 0 <= frag_rate <= 1:
+            raise ValueError("Probability or rate larger than one or is negative.")
+
+        # Calculate the total number of sentences and the number of sentences to delete.
+        nbr_sentences = len(self.sentences)
+        nbr_sentences_to_delete = round(nbr_sentences * frag_rate)
+        # Choose a random starting point for the sequence of sentences to be deleted.
+        start_frag_location = min(random.choice(range(nbr_sentences)),
+                                nbr_sentences - nbr_sentences_to_delete)
+        # Determine the ending point of the fragment to be deleted.
+        end_frag_location = start_frag_location + nbr_sentences_to_delete
+        # Delete the selected sequence of sentences from the list.
+        del self.sentences[start_frag_location:end_frag_location]
