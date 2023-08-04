@@ -97,7 +97,7 @@ class Stemma:
 
         if Text(manuscript).draw_boolean(self.fragmentation_proba):
             return Text(manuscript).fragment( \
-                self.config.variants.texts["fragment"]["rate"])
+                self.config.variants.texts["fragment"]["rate"]).text
                 
         return manuscript
 
