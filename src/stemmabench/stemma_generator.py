@@ -103,8 +103,8 @@ class Stemma:
 
     def _apply_level(self, manuscript: str) -> List[str]:
         """Apply transformation on a single generation."""
-        return [self._apply_fragmentation(Text(manuscript).transform(
-                    self.config.variants)) for _ in range(self.width)]
+        return [self._apply_fragmentation(str(Text(manuscript).transform(
+                    self.config.variants))) for _ in range(self.width)]
 
     def generate(self):
         """Fit the tree, I.E, generate variants"""
