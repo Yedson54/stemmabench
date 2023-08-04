@@ -96,7 +96,7 @@ class Stemma:
         # method somewhere -> To be able to handle key naming error).
 
         if Text(manuscript).draw_boolean(self.fragmentation_proba):
-            return (Text(manuscript).fragment( \
+            return str(Text(manuscript).fragment( \
                 self.config.variants.texts["fragment"]["rate"]))
                 
         return manuscript
@@ -106,11 +106,7 @@ class Stemma:
             Generate `width` variants by applying transformation to the manuscript
             at word and sentence levels. Then apply possibly fragmentation.
         """
-        variants = []
-        for _ in range(self.width):
-            variant = str(Text(manuscript).transform(self.config.variants))
-            variants.append(Text(self._apply_fragmentation(variant)))
-        return variants
+        return [Text(manuscript).transform(self.config.variants) for _ in range(self.width)]
 
     def generate(self):
         """Fit the tree, I.E, generate variants"""
@@ -138,7 +134,8 @@ class Stemma:
             # Gather values from last levels
             for values in self._levels[-1].values():
                 for i_index, value in enumerate(values):
-                    new_variants = self._apply_level(value)                       
+                    new_variants = self._apply_level(value)
+                    new_variants = [self._apply_fragmentation(new_variant) for new_variant in new_variants]                       
                     new_level[value] = new_variants
                     # Build text lookup by iterating over variants
                     for j_index, variant in enumerate(new_variants):

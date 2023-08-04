@@ -164,11 +164,8 @@ class Text:
         length is expressed as a percentage of the text length.
 
         Args:
-            text (str): The input text to be fragmented.
             frag_rate (float): The rate of sentence deletion (0 <= frag_rate <= 1).
                 Represents the percentage of sentences to be deleted.
-            punc (str, optional): The punctuation used to split the text into sentences.
-                Default is period/full stop (".").
         
         Returns:
             str: The fragmented text with sentences deleted.
