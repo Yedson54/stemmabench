@@ -54,7 +54,7 @@ class VariantConfig(BaseModel):
     """
     words: Dict[str, ProbabilisticConfig]
     sentences: Dict[str, ProbabilisticConfig]
-    Text: Dict[str, Dict[str, float]]
+    texts: Dict[str, Dict]
 
 
 class StemmaConfig(BaseModel):
@@ -62,6 +62,7 @@ class StemmaConfig(BaseModel):
     """
     depth: int
     width: ProbabilisticConfig
+    fragmentation: ProbabilisticConfig
 
 
 class MetaConfig(BaseModel):
