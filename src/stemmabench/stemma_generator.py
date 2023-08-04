@@ -138,7 +138,7 @@ class Stemma:
             # Gather values from last levels
             for values in self._levels[-1].values():
                 for i_index, value in enumerate(values):
-                    new_variants = self._apply_level(value)                       
+                    new_variants = self._apply_level(str(value))                       
                     new_level[value] = new_variants
                     # Build text lookup by iterating over variants
                     for j_index, variant in enumerate(new_variants):
