@@ -110,7 +110,6 @@ class Stemma:
         for _ in range(self.width):
             variant = str(Text(manuscript).transform(self.config.variants))
             variants.append(Text(self._apply_fragmentation(variant)))
-                            
         return variants
 
     def generate(self):

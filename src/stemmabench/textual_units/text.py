@@ -187,4 +187,4 @@ class Text:
         # Delete the selected sequence of sentences from the list.
         del self.sentences[start_frag_location:end_frag_location]
 
-        return self
+        return self.text
