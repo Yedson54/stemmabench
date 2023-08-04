@@ -96,8 +96,8 @@ class Stemma:
         # method somewhere -> To be able to handle key naming error).
 
         if Text(manuscript).draw_boolean(self.fragmentation_proba):
-            return Text(manuscript).fragment( \
-                self.config.variants.texts["fragment"]["rate"]).text
+            return (Text(manuscript).fragment( \
+                self.config.variants.texts["fragment"]["rate"])).text
                 
         return manuscript
 
