@@ -174,7 +174,8 @@ class Text:
             raise ValueError("Probability or rate larger than one or is negative.")
 
         # Calculate the total number of sentences and the number of sentences to delete.
-        nbr_sentences = len(self.sentences)
+        sentences = self.text.split(self.punc)
+        nbr_sentences = len(sentences)
         nbr_sentences_to_delete = round(nbr_sentences * frag_rate)
         # Choose a random starting point for the sequence of sentences to be deleted.
         start_frag_location = min(random.choice(range(nbr_sentences)),
@@ -182,7 +183,7 @@ class Text:
         # Determine the ending point of the fragment to be deleted.
         end_frag_location = start_frag_location + nbr_sentences_to_delete
         # Delete the selected sequence of sentences from the list.
-        del self.sentences[start_frag_location:end_frag_location]
+        del sentences[start_frag_location:end_frag_location]
         # Update the text.
-        self.text = self.punc.join(self.sentences)
-        return self.text
+        
+        return self.punc.join(sentences)
