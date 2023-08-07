@@ -1,5 +1,5 @@
 import random
-from typing import Any, Dict
+from typing import Any, Dict, List
 from stemmabench.config_parser import ProbabilisticConfig, VariantConfig
 from stemmabench.textual_units.sentence import Sentence
 from stemmabench.textual_units.word import Word
@@ -158,32 +158,51 @@ class Text:
         return sentence_edited_words.strip()
 
 
+    @staticmethod
+    def delete_sequence(sentences: List[str],
+                        fragment_size: int) -> List[str]:
+        """
+        Delete a sequence of sentences from a list of sentences.
+        
+        Args:
+            sentences (List[str]): List of sentences on which to perform deletion.
+            fragment_size (int): Size of the sequence to delete.
+
+        Returns:
+            List[str]: List of sentences with the sequence deleted.
+        """
+        nbr_sentences = len(sentences)
+        # Choose a random starting point for the sequence of sentences to be deleted.
+        start_frag_location = min(random.choice(range(nbr_sentences)),
+                                nbr_sentences - fragment_size)
+        # Determine the ending point of the fragment to be deleted.
+        end_frag_location = start_frag_location + fragment_size
+        # Delete the selected sequence of sentences from the list.
+        del sentences[start_frag_location:end_frag_location]
+        return sentences
+
     def fragment(self, frag_rate: float) -> str:
         """
-        Fragment a text by randomly removing ONE sequence of sentences whose
-        length is expressed as a percentage of the text length.
-
+        Fragment a text by randomly removing sequences of sentences.
+        
         Args:
-            frag_rate (float): The rate of sentence deletion (0 <= frag_rate <= 1).
-                Represents the percentage of sentences to be deleted.
+            frag_rate (float): The rate of sentence deletion in [0,1].
         
         Returns:
             str: The fragmented text with sentences deleted.
         """
         if not 0 <= frag_rate <= 1:
-            raise ValueError("Probability or rate larger than one or is negative.")
-
+            raise ValueError("The deletion rate must be between 0 and 1.")
+        
         # Calculate the total number of sentences and the number of sentences to delete.
         sentences = self.text.split(self.punc)
         nbr_sentences = len(sentences)
         nbr_sentences_to_delete = round(nbr_sentences * frag_rate)
-        # Choose a random starting point for the sequence of sentences to be deleted.
-        start_frag_location = min(random.choice(range(nbr_sentences)),
-                                nbr_sentences - nbr_sentences_to_delete)
-        # Determine the ending point of the fragment to be deleted.
-        end_frag_location = start_frag_location + nbr_sentences_to_delete
-        # Delete the selected sequence of sentences from the list.
-        del sentences[start_frag_location:end_frag_location]
-        # Update the text.
+        while nbr_sentences_to_delete > 0:
+            # Choose fragment size.
+            fragment_size = random.choice(range(1, nbr_sentences_to_delete + 1))
+            # Choose the start fragment location and delete the sequence from there.
+            sentences = self.delete_sequence(sentences, fragment_size)
+            nbr_sentences_to_delete -= fragment_size
         
         return self.punc.join(sentences)
